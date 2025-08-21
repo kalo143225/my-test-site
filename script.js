@@ -579,7 +579,7 @@ function setTableData(data) {
 document.addEventListener('DOMContentLoaded', function() {
     // Add event listeners to buttons and Top Header
     //Header Validation
-    function checkTopHeader()   {
+    function checkTopHeader() {
         let isValid = true;
         const topHeader = document.querySelector('.top-header');
         const topHeaderError = document.getElementById('topHeaderError');
