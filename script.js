@@ -25,6 +25,7 @@ function initDateTimePickers() {
             }
         }
     };
+    
     // Initialize start time pickers
     document.querySelectorAll('.start-time').forEach(el => {
         if (!el._flatpickr) {
@@ -45,6 +46,7 @@ function initDateTimePickers() {
             });
         }
     });
+    
     // Initialize end time pickers
     document.querySelectorAll('.end-time').forEach(el => {
         if (!el._flatpickr) {
@@ -102,13 +104,16 @@ function addRow() {
         </td>
         <td><button class="button remove" onclick="removeRow(this)">Remove</button></td>
     `;
+    
     // Initialize date/time pickers for the new row
     initDateTimePickers(); 
+    
     // Add event listener for the new status select
     newRow.querySelector('.status-select').addEventListener('change', function() {
         updateStatusColor(this);
     });
 }
+
 // Add new optional header row
 function addOptionalRow() {
     const table = document.getElementById('optionalHeadersTable').getElementsByTagName('tbody')[0];
@@ -119,6 +124,7 @@ function addOptionalRow() {
         <td><button class="button remove" onclick="removeOptionalRow(this)">Remove</button></td>
     `;
 }
+
 // Remove optional header row
 function removeOptionalRow(button) {
     const row = button.closest('tr');
@@ -127,6 +133,7 @@ function removeOptionalRow(button) {
         row.remove();
     }
 }
+
 // Update row color based on status selection
 function updateStatusColor(selectElement) {
     const row = selectElement.closest('tr');
@@ -135,6 +142,7 @@ function updateStatusColor(selectElement) {
         row.classList.add(`status-${selectElement.value.toLowerCase().replace(' ', '')}`);
     }
 }
+
 // Remove a row from the schedule table
 function removeRow(button) {
     const row = button.closest('tr');
@@ -146,19 +154,23 @@ function removeRow(button) {
     }
     validateTable();
 }
+
 // Validate time relationship in a row
 function validateTimeRelationship(row) {
     const startInput = row.querySelector('.start-time');
     const endInput = row.querySelector('.end-time');
     const startError = row.querySelector('.start-error');
     const endError = row.querySelector('.end-error');  
+    
     if (!startInput.value || !endInput.value) {
         startError.style.display = 'none';
         endError.style.display = 'none';
         return true;
     }  
+    
     const startDate = new Date(startInput.value);
     const endDate = new Date(endInput.value); 
+    
     if (startDate.getTime() >= endDate.getTime()) {
         startError.style.display = 'block';
         endError.style.display = 'block';
@@ -169,20 +181,25 @@ function validateTimeRelationship(row) {
         return true;
     }
 }
+
 // Validate all time relationships in the table
 function validateAllTimeRelationships() {
     const rows = document.querySelectorAll('#scheduleTable tbody tr');
     let isValid = true;
+    
     rows.forEach(row => {
         if (!validateTimeRelationship(row)) {
             isValid = false;
         }
     });  
+    
     return isValid;
 }
+
 // Validate all required fields
 function validateForm() {
     let isValid = true; 
+    
     // Validate change description
     const desc = document.getElementById('changeDescription');
     const descError = document.getElementById('descError');
@@ -192,6 +209,7 @@ function validateForm() {
     } else {
         descError.style.display = 'none';
     }
+    
     // Validate impact
     const impact = document.getElementById('impactText');
     const impactError = document.getElementById('impactError');
@@ -201,20 +219,26 @@ function validateForm() {
     } else {
         impactError.style.display = 'none';
     } 
+    
     // Validate table
     isValid = validateTable() && isValid;    
+    
     // Validate time relationships
     isValid = validateAllTimeRelationships() && isValid;
+    
     return isValid;
 }
+
 // Validate table has at least one complete row
 function validateTable() {
     const tableError = document.getElementById('tableError');
     const rows = document.querySelectorAll('#scheduleTable tbody tr');
+    
     if (rows.length === 0) {
         tableError.style.display = 'block';
         return false;
     }    
+    
     let hasValidRow = false;
     rows.forEach(row => {
         const inputs = row.querySelectorAll('input[required], select[required]');
@@ -224,13 +248,16 @@ function validateTable() {
         });
         if (rowValid) hasValidRow = true;
     });
+    
     if (!hasValidRow) {
         tableError.style.display = 'block';
         return false;
     }
+    
     tableError.style.display = 'none';
     return true;
 }
+
 // Save draft to local storage
 function saveDraft() {
     if (validateForm()) {
@@ -245,10 +272,12 @@ function saveDraft() {
             optionalHeadersData: getOptionalHeadersData(),
             internalFooter: document.querySelector('.internal-footer').textContent
         };
+        
         localStorage.setItem('siteSwitchDraft', JSON.stringify(content));
         alert('Draft saved successfully!');
     }
 }
+
 // Get optional headers data
 function getOptionalHeadersData() {
     return Array.from(document.querySelectorAll('#optionalHeadersTable tbody tr')).map(row => {
@@ -258,23 +287,29 @@ function getOptionalHeadersData() {
         };
     });
 }
+
 // Load draft from local storage
 function loadDraft() {
     const savedDraft = localStorage.getItem('siteSwitchDraft');
     if (savedDraft) {
         const content = JSON.parse(savedDraft);
+        
         document.querySelector('.top-header').textContent = content.topHeader || 'DEAR USERS OF SHP PLATFORM';
         document.querySelector('.header h1').textContent = content.header1;
         document.querySelector('.header .meta').textContent = content.header2;    
+        
         document.getElementById('changeDescription').value = content.changeDescription;
         document.getElementById('impactText').value = content.impactText;
         document.getElementById('questionsText').value = content.questionsText;
         document.querySelector('.internal-footer').textContent = content.internalFooter || 'INTERNAL';
+        
         setTableData(content.tableData);   
+        
         // Load optional headers if they exist
         if (content.optionalHeadersData) {
             const tbody = document.querySelector('#optionalHeadersTable tbody');
             tbody.innerHTML = '';
+            
             content.optionalHeadersData.forEach(header => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -284,6 +319,7 @@ function loadDraft() {
                 `;
                 tbody.appendChild(row);
             });
+            
             // Ensure at least one empty row exists
             if (content.optionalHeadersData.length === 0) {
                 addOptionalRow();
@@ -291,14 +327,17 @@ function loadDraft() {
         }
     }
 }
+
 // Generate email content optimized for Outlook
 function generateEmailContent() {
     let tableContent = '';
     const rows = document.querySelectorAll('#scheduleTable tbody tr');  
+    
     rows.forEach(row => {
         const cells = row.querySelectorAll('td');
         const status = cells[5].querySelector('select').value;
         let statusClass = '';    
+        
         // Map status to background colors
         switch(status.toLowerCase().replace(' ', '')) {
             case 'inprogress': statusClass = 'background-color:#fff3cd;'; break;
@@ -306,6 +345,7 @@ function generateEmailContent() {
             case 'postponed': statusClass = 'background-color:#f8d7da;'; break;
             case 'tostart': statusClass = 'background-color:#e2e3e5;'; break;
         }     
+        
         tableContent += `
             <tr style="${statusClass}">
                 <td style="border:1px solid #8B0000;padding:6px;">${cells[0].querySelector('input').value}</td>
@@ -317,12 +357,15 @@ function generateEmailContent() {
             </tr>
         `;
     });  
+    
     // Generate HTML for optional headers
     let optionalHeadersContent = '';
     const optionalRows = document.querySelectorAll('#optionalHeadersTable tbody tr');
+    
     optionalRows.forEach(row => {
         const headerName = row.querySelector('input').value;
         const headerContent = row.querySelector('textarea').value;      
+        
         if (headerName && headerContent) {
             optionalHeadersContent += `
                 <tr>
@@ -334,11 +377,13 @@ function generateEmailContent() {
             `;
         }
     });
+    
     // Get the text content without extra line breaks
     const getCleanText = (elementId) => {
         const text = document.getElementById(elementId).value;
         return text.replace(/\n/g, '<br>').replace(/<br><br>/g, '<br>');
     };  
+    
     return `
         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:1000px;margin:0 auto;border:1px solid #8B0000;border-radius:4px;overflow:hidden;font-family:Arial,sans-serif;">
             <!-- Top Header -->
@@ -347,6 +392,7 @@ function generateEmailContent() {
                     ${document.querySelector('.top-header').textContent}
                 </td>
             </tr>       
+            
             <!-- Header -->
             <tr>
                 <td bgcolor="#8B0000" style="padding:15px 16px;color:white;">
@@ -360,6 +406,7 @@ function generateEmailContent() {
                     </table>
                 </td>
             </tr>         
+            
             <!-- Content -->
             <tr>
                 <td style="padding:0;">
@@ -401,8 +448,10 @@ function generateEmailContent() {
                                 <p style="margin:0 0 0 0.8em;white-space:pre-wrap;font-family:Arial,sans-serif;">${getCleanText('impactText')}</p>
                             </td>
                         </tr>              
+                        
                         <!-- Optional Headers -->
                         ${optionalHeadersContent}          
+                        
                         <!-- Questions -->
                         <tr>
                             <td style="padding:20px 0 0 0;">
@@ -419,6 +468,7 @@ function generateEmailContent() {
                     </table>
                 </td>
             </tr>    
+            
             <!-- Footer -->
             <tr>
                 <td bgcolor="#8B0000" style="padding:12px 16px;color:white;">
@@ -447,10 +497,11 @@ function generateEmailContent() {
                     </table>
                 </td>
             </tr>            
+            
             <!-- Internal Footer -->
             <tr>
                 <p style="text-align: center;">
-                <img src="https://raw.githubusercontent.com/kalo143225/my-test-site/refs/heads/master/hsbclogo.jpg" alt="Logo" width="150">
+                <img src="" alt="Logo" width="150">
                 </p>
                 <td bgcolor="#333" style="padding:10px 16px;color:white;text-align:center;font-weight:bold;border-top:1px solid #555;font-family:Arial,sans-serif;">
                     ${document.querySelector('.internal-footer').textContent}
@@ -459,6 +510,7 @@ function generateEmailContent() {
         </table>
     `;
 }
+
 // Show preview of the content
 function showPreview() {
     if (validateForm()) {
@@ -471,21 +523,23 @@ function showPreview() {
         alert('Please fill in all required fields and ensure time ranges are valid before previewing.');
     }
 }
+
 // Copy content to clipboard (Outlook optimized)
 function copyToClipboard() {
     // Create a temporary div with the email content
-    const previewContent = document.getElementById('previewContent');
-    //const tempDiv = document.createElement('div');
+    const tempDiv = document.createElement('div');
     tempDiv.innerHTML = generateEmailContent();
     tempDiv.style.position = 'absolute';
     tempDiv.style.left = '-9999px';
     document.body.appendChild(tempDiv); 
+    
     // Select the content
     const range = document.createRange();
     range.selectNode(tempDiv);
     const selection = window.getSelection();
     window.getSelection().removeAllRanges();
     window.getSelection().addRange(range); 
+    
     try {
         // Execute the copy command
         const successful = document.execCommand('copy');
@@ -501,10 +555,12 @@ function copyToClipboard() {
     } catch (err) {
         alert('Error copying email content: ' + err);
     } 
+    
     // Clean up
     window.getSelection().removeAllRanges();
     document.body.removeChild(tempDiv);
 }
+
 // Get all table data
 function getTableData() {
     return Array.from(document.querySelectorAll('#scheduleTable tbody tr')).map(row => {
@@ -519,10 +575,12 @@ function getTableData() {
         };
     });
 }
+
 // Populate table with saved data
 function setTableData(data) {
     const tbody = document.querySelector('#scheduleTable tbody');
     tbody.innerHTML = ''; 
+    
     data.forEach(rowData => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -562,19 +620,24 @@ function setTableData(data) {
             <td><button class="button remove" onclick="removeRow(this)">Remove</button></td>
         `;
         tbody.appendChild(row);
+        
         if (rowData.status) {
             updateStatusColor(row.querySelector('.status-select'));
         }
     }); 
+    
     // Ensure at least one empty row exists
     if (data.length === 0) {
         addRow();
     }  
+    
     // Initialize date/time pickers for all rows
     initDateTimePickers();
+    
     // Validate time relationships for all rows
     validateAllTimeRelationships();
 }
+
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
     // Add event listeners to buttons and Top Header
@@ -592,21 +655,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return isValid;
     }
+    
     document.getElementById('addRowBtn').addEventListener('click', addRow);
     document.getElementById('addOptionalRowBtn').addEventListener('click', addOptionalRow);
     document.getElementById('saveDraftBtn').addEventListener('click', saveDraft);
     document.getElementById('previewBtn').addEventListener('click', showPreview);
     document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
-    document.getElementById('exportCsvBtn').addEventListener('click', exportToCSV);  
+    
     // Initialize datetime pickers for existing rows
     initDateTimePickers();
+    
     // Initialize status selectors in the default row
     document.querySelectorAll('.status-select').forEach(select => {
         select.addEventListener('change', function() {
             updateStatusColor(this);
         });
     }); 
+    
     loadDraft();
+    
     // Add validation on blur for required fields
     document.querySelectorAll('[required]').forEach(field => {
         field.addEventListener('blur', function() {
