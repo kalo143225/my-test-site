@@ -18,12 +18,10 @@
             <h1 style="font-family: Arial, sans-serif !important; font-size: 22px !important;">Remove this and add your header here</h1>
             <div class="meta">TECHNICAL PLATFORM NOTIFICATION</div>
         </div>
-
         <div class="content-section">
             <h2 class="required">Description</h2>
             <textarea class="editable-textarea" id="changeDescription" placeholder="Enter change description here..." required></textarea>
             <div class="error" id="descError">Please enter a change description</div>
-
             <h2 class="required">Schedule</h2>
             <table id="scheduleTable">
                 <thead>
@@ -78,11 +76,9 @@
             </table>
             <button class="button" id="addRowBtn">Add Row</button>
             <div class="error" id="tableError">Please add at least one schedule entry</div>
-
             <h2 class="required">Impact</h2>
             <textarea class="editable-textarea" id="impactText" placeholder="Enter impact details here..." required></textarea>
             <div class="error" id="impactError">Please enter impact details</div>
-
             <h2>Additional Information</h2>
             <table id="optionalHeadersTable">
                 <thead>
@@ -101,7 +97,6 @@
                 </tbody>
             </table>
             <button class="button" id="addOptionalRowBtn">Add Header Rows</button>
-
             <h2>Questions and further information</h2>
             <div class="fixed-info">
                 <p style="font-weight: bold;">For any issues seen during the release window please raise an ESSD and/or xMatters:</p>
@@ -111,7 +106,6 @@
             </div>
             <textarea class="editable-textarea" id="questionsText" placeholder="Enter additional questions/contact information here..."></textarea>
         </div>
-
         <div class="footer">
             <div class="contact-box">
                 <div class="contact-item">
@@ -127,30 +121,24 @@
                 Next update will be provided as soon as new information becomes available.
             </div>
         </div>
-
         <p style="text-align: center;">
             <img src="" alt="Logo" width="150">
         </p>
-
         <div class="internal-footer" contenteditable="true">
             INTERNAL
         </div>
     </div>
-
     <div class="global-button-group">
         <button class="button save" id="saveDraftBtn">Save Draft</button>
         <button class="button" id="previewBtn">Preview</button>
         <div class="preview-section" id="previewSection" style="display: none;"></div>
     </div>
-
     <h2>Preview</h2>
     <div id="previewContent"></div>
-
     <div class="copy-section" id="copySection" style="display: none;">
         <button class="button copy" id="copyBtn">Copy Email to Outlook</button>
         <div class="copy-message" id="copyMessage">Email content copied to clipboard! You can now paste it into Outlook.</div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="script.js"></script>
 </body>
