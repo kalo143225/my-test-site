@@ -348,12 +348,12 @@ function generateEmailContent() {
         
         tableContent += `
             <tr style="${statusClass}">
-                <td style="border:1px solid #8B0000;padding:6px;">${cells[0].querySelector('input').value}</td>
-                <td style="border:1px solid #8B0000;padding:6px;">${cells[1].querySelector('select').value}</td>
-                <td style="border:1px solid #8B0000;padding:6px;">${cells[2].querySelector('select').value}</td>
-                <td style="border:1px solid #8B0000;padding:6px;">${cells[3].querySelector('input').value}</td>
-                <td style="border:1px solid #8B0000;padding:6px;">${cells[4].querySelector('input').value}</td>
-                <td style="border:1px solid #8B0000;padding:6px;">${cells[5].querySelector('select').value}</td>
+                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;">${cells[0].querySelector('input').value}</td>
+                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;">${cells[1].querySelector('select').value}</td>
+                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;">${cells[2].querySelector('select').value}</td>
+                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;">${cells[3].querySelector('input').value}</td>
+                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;">${cells[4].querySelector('input').value}</td>
+                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;">${cells[5].querySelector('select').value}</td>
             </tr>
         `;
     });  
@@ -423,15 +423,15 @@ function generateEmailContent() {
                         <tr>
                             <td style="padding:20px 0;">
                                 <h2 style="font-size:18px;margin:0 0 12px 0.8em;color:#444;font-family:Arial,sans-serif;font-weight:bold;">Schedule</h2>
-                                <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;border:1px solid #8B0000;width:100%;">
+                                <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;border:1px solid #8B0000;width:100%;table-layout:fixed;">
                                     <thead>
                                         <tr>
-                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;">CHG#</th>
-                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;">Region</th>
-                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;">Environment</th>
-                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;">Implementation Start Time (UTC)</th>
-                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;">Implementation End Time (UTC)</th>
-                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;">Status</th>
+                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:10%;">CHG#</th>
+                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:12%;">Region</th>
+                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:12%;">Environment</th>
+                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:18%;">Implementation Start Time (UTC)</th>
+                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:18%;">Implementation End Time (UTC)</th>
+                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:12%;">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -498,11 +498,13 @@ function generateEmailContent() {
                 </td>
             </tr>            
             
-            <!-- Internal Footer -->
+            <!-- Logo and Internal Footer -->
             <tr>
-                <p style="text-align: center;">
-                <img src="https://raw.githubusercontent.com/kalo143225/my-test-site/refs/heads/master/hsbclogo.jpg" alt="Logo" width="150">
-                </p>
+                <td style="text-align: center; padding: 20px 0 0 0;">
+                    <img src="https://raw.githubusercontent.com/kalo143225/my-test-site/refs/heads/master/hsbclogo.jpg" alt="Logo" width="150">
+                </td>
+            </tr>
+            <tr>
                 <td bgcolor="#333" style="padding:10px 16px;color:white;text-align:center;font-weight:bold;border-top:1px solid #555;font-family:Arial,sans-serif;">
                     ${document.querySelector('.internal-footer').textContent}
                 </td>
