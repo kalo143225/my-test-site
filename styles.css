@@ -71,18 +71,43 @@ table {
     border-collapse: collapse;
     margin: 15px 0;
     border: 1px solid #8B0000;
+    table-layout: fixed;
 }
 th, td {
     border: 1px solid #8B0000;
     padding: 8px;
     text-align: left;
     font-family: Arial, sans-serif;
+    word-wrap: break-word;
 }
 th {
     background-color: #f2f2f2;
     font-weight: 600;
     font-size: 14px;
     margin: 8px 4px;
+}
+/* Schedule table column widths */
+#scheduleTable th:nth-child(1), 
+#scheduleTable td:nth-child(1) {
+    width: 10%;
+}
+#scheduleTable th:nth-child(2), 
+#scheduleTable td:nth-child(2),
+#scheduleTable th:nth-child(3), 
+#scheduleTable td:nth-child(3),
+#scheduleTable th:nth-child(6), 
+#scheduleTable td:nth-child(6) {
+    width: 12%;
+}
+#scheduleTable th:nth-child(4), 
+#scheduleTable td:nth-child(4),
+#scheduleTable th:nth-child(5), 
+#scheduleTable td:nth-child(5) {
+    width: 18%;
+}
+#scheduleTable th:nth-child(7), 
+#scheduleTable td:nth-child(7) {
+    width: 8%;
 }
 .button {
     background-color: #0066cc;
@@ -128,6 +153,7 @@ th {
     padding-right: 10px;
     border-radius: 4px;
     transition: border 0.3s ease;
+    box-sizing: border-box;
 }
 .editable-textarea:focus, .editable-input:focus {
     border-color: #BB0000;
@@ -166,6 +192,7 @@ th {
     border: 1px solid #ddd;
     font-family: Arial, sans-serif;
     border-radius: 4px;
+    box-sizing: border-box;
 }
 .time-error {
     color: #dc3545;
@@ -347,6 +374,7 @@ th {
     width: 100%;
     border-collapse: collapse;
     margin: 15px 0;
+    table-layout: fixed;
 }
 
 #previewContent th {
@@ -363,4 +391,24 @@ th {
 
 #previewContent tr:nth-child(even) {
     background-color: #f9f9f9;
+}
+
+/* Preview column widths */
+#previewContent table th:nth-child(1), 
+#previewContent table td:nth-child(1) {
+    width: 10%;
+}
+#previewContent table th:nth-child(2), 
+#previewContent table td:nth-child(2),
+#previewContent table th:nth-child(3), 
+#previewContent table td:nth-child(3),
+#previewContent table th:nth-child(6), 
+#previewContent table td:nth-child(6) {
+    width: 12%;
+}
+#previewContent table th:nth-child(4), 
+#previewContent table td:nth-child(4),
+#previewContent table th:nth-child(5), 
+#previewContent table td:nth-child(5) {
+    width: 18%;
 }
