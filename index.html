@@ -19,65 +19,72 @@
         </div>
         <div class="content-section">
             <h2 class="required">Description</h2>
-            <textarea class="editable-textarea" id="changeDescription" placeholder="Enter change description here..." required></textarea>
+            <div class="content-box">
+                <textarea class="editable-textarea" id="changeDescription" placeholder="Enter change description here..." required></textarea>
+            </div>
             <div class="error" id="descError">Please enter a change description</div>
+            
             <h2 class="required">Schedule</h2>
-<table id="scheduleTable">
-    <thead>
-        <tr>
-            <th>CHG#</th>
-            <th>Region</th>
-            <th>Environment</th>
-            <th>Start Time (UTC)</th>
-            <th>End Time (UTC)</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr class="schedule-row">
-            <td><input type="text" class="editable-input chg-input" placeholder="CHG#" required></td>
-            <td>
-                <select class="region-select" required>
-                    <option value="">Select Region</option>
-                    <option value="HK">HK</option>
-                    <option value="UK">UK</option>
-                    <option value="US">US</option>
-                </select>
-            </td>
-            <td>
-                <select class="environment-select" required>
-                    <option value="">Select Environment</option>
-                    <option value="Prod">Prod</option>
-                    <option value="Preprod">Preprod</option>
-                </select>
-            </td>
-            <td>
-                <input type="text" class="datetime-input start-time" placeholder="Select start time" required>
-                <div class="time-error start-error">Start time must be before end time</div>
-            </td>
-            <td>
-                <input type="text" class="datetime-input end-time" placeholder="Select end time" required>
-                <div class="time-error end-error">End time must be after start time</div>
-            </td>
-            <td>
-                <select class="status-select" required>
-                    <option value="">Select Status</option>
-                    <option value="Completed">Completed</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Postponed">Postponed</option>
-                    <option value="To Start">To Start</option>
-                </select>
-            </td>
-            <td><button class="button remove" onclick="removeRow(this)">Remove</button></td>
-        </tr>
-    </tbody>
-</table>
+            <table id="scheduleTable">
+                <thead>
+                    <tr>
+                        <th>CHG#</th>
+                        <th>Region</th>
+                        <th>Environment</th>
+                        <th>Start Time (UTC)</th>
+                        <th>End Time (UTC)</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="schedule-row">
+                        <td><input type="text" class="editable-input chg-input" placeholder="CHG#" required></td>
+                        <td>
+                            <select class="region-select" required>
+                                <option value="">Select Region</option>
+                                <option value="HK">HK</option>
+                                <option value="UK">UK</option>
+                                <option value="US">US</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="environment-select" required>
+                                <option value="">Select Environment</option>
+                                <option value="Prod">Prod</option>
+                                <option value="Preprod">Preprod</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="datetime-input start-time" placeholder="Select start time" required>
+                            <div class="time-error start-error">Start time must be before end time</div>
+                        </td>
+                        <td>
+                            <input type="text" class="datetime-input end-time" placeholder="Select end time" required>
+                            <div class="time-error end-error">End time must be after start time</div>
+                        </td>
+                        <td>
+                            <select class="status-select" required>
+                                <option value="">Select Status</option>
+                                <option value="Completed">Completed</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Postponed">Postponed</option>
+                                <option value="To Start">To Start</option>
+                            </select>
+                        </td>
+                        <td><button class="button remove" onclick="removeRow(this)">Remove</button></td>
+                    </tr>
+                </tbody>
+            </table>
             <button class="button" id="addRowBtn">Add Row</button>
             <div class="error" id="tableError">Please add at least one schedule entry</div>
+            
             <h2 class="required">Impact</h2>
-            <textarea class="editable-textarea" id="impactText" placeholder="Enter impact details here..." required></textarea>
+            <div class="content-box">
+                <textarea class="editable-textarea" id="impactText" placeholder="Enter impact details here..." required></textarea>
+            </div>
             <div class="error" id="impactError">Please enter impact details</div>
+            
             <h2>Additional Information</h2>
             <table id="optionalHeadersTable">
                 <thead>
@@ -96,6 +103,7 @@
                 </tbody>
             </table>
             <button class="button" id="addOptionalRowBtn">Add Header Rows</button>
+            
             <h2>Questions and further information</h2>
             <div class="fixed-info">
                 <p style="font-weight: bold;">For any issues seen during the release window please raise an ESSD and/or xMatters:</p>
@@ -103,7 +111,9 @@
                 <p style="margin-top: 12px; font-weight: bold;">Please refer to this self-help page before reaching out to teams for tickets:</p>
                 <p><a href="https://wpb-confluence.systems.uk.hsbc/display/DCSE/SHP+Tenants+-+Self+Help+Page+for+Common+Issues" target="_blank">https://wpb-confluence.systems.uk.hsbc/display/DCSE/SHP+Tenants+-+Self+Help+Page+for+Common+Issues</a></p>
             </div>
-            <textarea class="editable-textarea" id="questionsText" placeholder="Enter additional questions/contact information here..."></textarea>
+            <div class="content-box">
+                <textarea class="editable-textarea" id="questionsText" placeholder="Enter additional questions/contact information here..."></textarea>
+            </div>
         </div>
         <div class="footer">
             <div class="contact-box">
