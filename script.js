@@ -348,12 +348,12 @@ function generateEmailContent() {
         
         tableContent += `
             <tr style="${statusClass}">
-                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;">${cells[0].querySelector('input').value}</td>
-                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;">${cells[1].querySelector('select').value}</td>
-                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;">${cells[2].querySelector('select').value}</td>
-                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;">${cells[3].querySelector('input').value}</td>
-                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;">${cells[4].querySelector('input').value}</td>
-                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;">${cells[5].querySelector('select').value}</td>
+                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;max-width:100px;overflow:hidden;text-overflow:ellipsis;">${cells[0].querySelector('input').value}</td>
+                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;max-width:120px;overflow:hidden;text-overflow:ellipsis;">${cells[1].querySelector('select').value}</td>
+                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;max-width:120px;overflow:hidden;text-overflow:ellipsis;">${cells[2].querySelector('select').value}</td>
+                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;max-width:180px;overflow:hidden;text-overflow:ellipsis;">${cells[3].querySelector('input').value}</td>
+                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;max-width:180px;overflow:hidden;text-overflow:ellipsis;">${cells[4].querySelector('input').value}</td>
+                <td style="border:1px solid #8B0000;padding:6px;word-wrap:break-word;max-width:120px;overflow:hidden;text-overflow:ellipsis;">${cells[5].querySelector('select').value}</td>
             </tr>
         `;
     });  
@@ -371,7 +371,9 @@ function generateEmailContent() {
                 <tr>
                     <td style="padding:20px 0;">
                         <h2 style="font-size:18px;margin:0 0 12px 0.8em;color:#444;font-family:Arial,sans-serif;font-weight:bold;">${headerName}</h2>
-                        <p style="margin:0 0 0 0.8em;white-space:pre-wrap;font-family:Arial,sans-serif;">${headerContent.replace(/\n/g, '<br>').replace(/<br><br>/g, '<br>')}</p>
+                        <div style="background-color:#f8f9fa;border:1px solid #ddd;padding:12px;border-radius:4px;margin-bottom:12px;font-family:Arial,sans-serif;">
+                            <p style="margin:0;white-space:pre-wrap;font-family:Arial,sans-serif;">${headerContent.replace(/\n/g, '<br>').replace(/<br><br>/g, '<br>')}</p>
+                        </div>
                     </td>
                 </tr>
             `;
@@ -415,7 +417,9 @@ function generateEmailContent() {
                         <tr>
                             <td style="padding:0 0 20px 0;">
                                 <h2 style="font-size:18px;margin:0 0 12px 0.8em;color:#444;font-family:Arial,sans-serif;font-weight:bold;">Description</h2>
-                                <p style="margin:0 0 0 0.8em;white-space:pre-wrap;font-family:Arial,sans-serif;">${getCleanText('changeDescription')}</p>
+                                <div style="background-color:#f8f9fa;border:1px solid #ddd;padding:12px;border-radius:4px;margin-bottom:12px;font-family:Arial,sans-serif;">
+                                    <p style="margin:0;white-space:pre-wrap;font-family:Arial,sans-serif;">${getCleanText('changeDescription')}</p>
+                                </div>
                             </td>
                         </tr>
                         
@@ -423,15 +427,15 @@ function generateEmailContent() {
                         <tr>
                             <td style="padding:20px 0;">
                                 <h2 style="font-size:18px;margin:0 0 12px 0.8em;color:#444;font-family:Arial,sans-serif;font-weight:bold;">Schedule</h2>
-                                <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;border:1px solid #8B0000;width:100%;table-layout:fixed;">
+                                <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;border:1px solid #8B0000;width:100%;table-layout:fixed;max-width:100%;">
                                     <thead>
                                         <tr>
-                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:10%;">CHG#</th>
-                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:12%;">Region</th>
-                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:12%;">Environment</th>
-                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:18%;">Implementation Start Time (UTC)</th>
-                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:18%;">Implementation End Time (UTC)</th>
-                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:12%;">Status</th>
+                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:10%;max-width:100px;overflow:hidden;text-overflow:ellipsis;">CHG#</th>
+                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:12%;max-width:120px;overflow:hidden;text-overflow:ellipsis;">Region</th>
+                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:12%;max-width:120px;overflow:hidden;text-overflow:ellipsis;">Environment</th>
+                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:18%;max-width:180px;overflow:hidden;text-overflow:ellipsis;">Implementation Start Time (UTC)</th>
+                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:18%;max-width:180px;overflow:hidden;text-overflow:ellipsis;">Implementation End Time (UTC)</th>
+                                            <th style="border:1px solid #8B0000;padding:6px;text-align:left;background-color:#f2f2f2;font-weight:600;font-family:Arial,sans-serif;width:12%;max-width:120px;overflow:hidden;text-overflow:ellipsis;">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -445,7 +449,9 @@ function generateEmailContent() {
                         <tr>
                             <td style="padding:20px 0;">
                                 <h2 style="font-size:18px;margin:0 0 12px 0.8em;color:#444;font-family:Arial,sans-serif;font-weight:bold;">Impact</h2>
-                                <p style="margin:0 0 0 0.8em;white-space:pre-wrap;font-family:Arial,sans-serif;">${getCleanText('impactText')}</p>
+                                <div style="background-color:#f8f9fa;border:1px solid #ddd;padding:12px;border-radius:4px;margin-bottom:12px;font-family:Arial,sans-serif;">
+                                    <p style="margin:0;white-space:pre-wrap;font-family:Arial,sans-serif;">${getCleanText('impactText')}</p>
+                                </div>
                             </td>
                         </tr>              
                         
@@ -462,7 +468,9 @@ function generateEmailContent() {
                                     <p style="margin:12px 0 0 0;font-weight:bold;">Please refer to this self-help page before reaching out to teams for tickets:</p>
                                     <p style="margin:4px 0 0 0;"><a href="https://wpb-confluence.systems.uk.hsbc/display/DCSE/SHP+Tenants+-+Self+Help+Page+for+Common+Issues" style="color:#0066cc;text-decoration:none;">https://wpb-confluence.systems.uk.hsbc/display/DCSE/SHP+Tenants+-+Self+Help+Page+for+Common+Issues</a></p>
                                 </div>
-                                <p style="margin:0 0 0 0.8em;white-space:pre-wrap;font-family:Arial,sans-serif;">${getCleanText('questionsText')}</p>
+                                <div style="background-color:#f8f9fa;border:1px solid #ddd;padding:12px;border-radius:4px;margin-bottom:12px;font-family:Arial,sans-serif;">
+                                    <p style="margin:0;white-space:pre-wrap;font-family:Arial,sans-serif;">${getCleanText('questionsText')}</p>
+                                </div>
                             </td>
                         </tr>
                     </table>
