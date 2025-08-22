@@ -10,23 +10,20 @@ function initDateTimePickers() {
         defaultMinute: 0,
         onChange: function(selectedDates, dateStr, instance) {
             if (selectedDates.length) {
-                // Convert to UTC and format as YYYY-MM-DD HH:MM
                 const utcDate = new Date(selectedDates[0].getTime() - selectedDates[0].getTimezoneOffset() * 60000);
                 instance.input.value = utcDate.toISOString().slice(0, 16).replace('T', ' ');              
                 const row = instance.input.closest('tr');
                 if (instance.input.classList.contains('start-time')) {
                     const endTimeInput = row.querySelector('.end-time');
                     if (endTimeInput && endTimeInput._flatpickr) {
-                        endTimeInput._flatpickr.set('minDate', new Date(selectedDates[0].getTime() + 60000)); // Add 1 minute to prevent same time
+                        endTimeInput._flatpickr.set('minDate', new Date(selectedDates[0].getTime() + 60000));
                     }
                 }                
-                // Validate time relationship
                 validateTimeRelationship(row);
             }
         }
     };
     
-    // Initialize start time pickers
     document.querySelectorAll('.start-time').forEach(el => {
         if (!el._flatpickr) {
             flatpickr(el, {
@@ -38,7 +35,7 @@ function initDateTimePickers() {
                         const row = instance.input.closest('tr');
                         const endTimeInput = row.querySelector('.end-time');
                         if (endTimeInput && endTimeInput._flatpickr) {
-                            endTimeInput._flatpickr.set('minDate', new Date(selectedDates[0].getTime() + 60000)); // Add 1 minute to prevent same time
+                            endTimeInput._flatpickr.set('minDate', new Date(selectedDates[0].getTime() + 60000));
                         }                      
                         validateTimeRelationship(row);
                     }
@@ -47,7 +44,6 @@ function initDateTimePickers() {
         }
     });
     
-    // Initialize end time pickers
     document.querySelectorAll('.end-time').forEach(el => {
         if (!el._flatpickr) {
             flatpickr(el, {
@@ -64,7 +60,6 @@ function initDateTimePickers() {
     });
 }
 
-// Add a new row to the schedule table
 function addRow() {
     const table = document.getElementById('scheduleTable').getElementsByTagName('tbody')[0];
     const newRow = table.insertRow();    
@@ -105,16 +100,13 @@ function addRow() {
         <td><button class="button remove" onclick="removeRow(this)">Remove</button></td>
     `;
     
-    // Initialize date/time pickers for the new row
     initDateTimePickers(); 
     
-    // Add event listener for the new status select
     newRow.querySelector('.status-select').addEventListener('change', function() {
         updateStatusColor(this);
     });
 }
 
-// Add new optional header row
 function addOptionalRow() {
     const table = document.getElementById('optionalHeadersTable').getElementsByTagName('tbody')[0];
     const newRow = table.insertRow();    
@@ -125,7 +117,6 @@ function addOptionalRow() {
     `;
 }
 
-// Remove optional header row
 function removeOptionalRow(button) {
     const row = button.closest('tr');
     const table = document.getElementById('optionalHeadersTable').getElementsByTagName('tbody')[0];
@@ -134,7 +125,6 @@ function removeOptionalRow(button) {
     }
 }
 
-// Update row color based on status selection
 function updateStatusColor(selectElement) {
     const row = selectElement.closest('tr');
     row.className = '';
@@ -143,7 +133,6 @@ function updateStatusColor(selectElement) {
     }
 }
 
-// Remove a row from the schedule table
 function removeRow(button) {
     const row = button.closest('tr');
     const table = document.getElementById('scheduleTable').getElementsByTagName('tbody')[0];
@@ -155,7 +144,6 @@ function removeRow(button) {
     validateTable();
 }
 
-// Validate time relationship in a row
 function validateTimeRelationship(row) {
     const startInput = row.querySelector('.start-time');
     const endInput = row.querySelector('.end-time');
@@ -182,7 +170,6 @@ function validateTimeRelationship(row) {
     }
 }
 
-// Validate all time relationships in the table
 function validateAllTimeRelationships() {
     const rows = document.querySelectorAll('#scheduleTable tbody tr');
     let isValid = true;
@@ -196,11 +183,13 @@ function validateAllTimeRelationships() {
     return isValid;
 }
 
-// Validate all required fields
 function validateForm() {
     let isValid = true; 
     
-    // Validate change description
+    if (!checkTopHeader()) {
+        isValid = false;
+    }
+    
     const desc = document.getElementById('changeDescription');
     const descError = document.getElementById('descError');
     if (!desc.value.trim()) {
@@ -210,7 +199,6 @@ function validateForm() {
         descError.style.display = 'none';
     }
     
-    // Validate impact
     const impact = document.getElementById('impactText');
     const impactError = document.getElementById('impactError');
     if (!impact.value.trim()) {
@@ -220,16 +208,13 @@ function validateForm() {
         impactError.style.display = 'none';
     } 
     
-    // Validate table
     isValid = validateTable() && isValid;    
     
-    // Validate time relationships
     isValid = validateAllTimeRelationships() && isValid;
     
     return isValid;
 }
 
-// Validate table has at least one complete row
 function validateTable() {
     const tableError = document.getElementById('tableError');
     const rows = document.querySelectorAll('#scheduleTable tbody tr');
@@ -258,7 +243,6 @@ function validateTable() {
     return true;
 }
 
-// Save draft to local storage
 function saveDraft() {
     if (validateForm()) {
         const content = {
@@ -278,7 +262,6 @@ function saveDraft() {
     }
 }
 
-// Get optional headers data
 function getOptionalHeadersData() {
     return Array.from(document.querySelectorAll('#optionalHeadersTable tbody tr')).map(row => {
         return {
@@ -288,7 +271,6 @@ function getOptionalHeadersData() {
     });
 }
 
-// Load draft from local storage
 function loadDraft() {
     const savedDraft = localStorage.getItem('siteSwitchDraft');
     if (savedDraft) {
@@ -305,7 +287,6 @@ function loadDraft() {
         
         setTableData(content.tableData);   
         
-        // Load optional headers if they exist
         if (content.optionalHeadersData) {
             const tbody = document.querySelector('#optionalHeadersTable tbody');
             tbody.innerHTML = '';
@@ -320,7 +301,6 @@ function loadDraft() {
                 tbody.appendChild(row);
             });
             
-            // Ensure at least one empty row exists
             if (content.optionalHeadersData.length === 0) {
                 addOptionalRow();
             }
@@ -328,7 +308,6 @@ function loadDraft() {
     }
 }
 
-// Generate email content optimized for Outlook
 function generateEmailContent() {
     let tableContent = '';
     const rows = document.querySelectorAll('#scheduleTable tbody tr');  
@@ -338,7 +317,6 @@ function generateEmailContent() {
         const status = cells[5].querySelector('select').value;
         let statusClass = '';    
         
-        // Map status to background colors
         switch(status.toLowerCase().replace(' ', '')) {
             case 'inprogress': statusClass = 'background-color:#fff3cd;'; break;
             case 'completed': statusClass = 'background-color:#d4edda;'; break;
@@ -358,7 +336,6 @@ function generateEmailContent() {
         `;
     });  
     
-    // Generate HTML for optional headers
     let optionalHeadersContent = '';
     const optionalRows = document.querySelectorAll('#optionalHeadersTable tbody tr');
     
@@ -370,7 +347,7 @@ function generateEmailContent() {
             optionalHeadersContent += `
                 <tr>
                     <td style="padding:20px 0;">
-                        <h2 style="font-size:18px;margin:0 0 12px 0.8em;color:#444;font-family:Arial,sans-serif;font-weight:bold;">${headerName}</h2>
+                        <h2 style="font-size:18px;margin:0 0 12px 0;color:#444;font-family:Arial,sans-serif;font-weight:bold;">${headerName}</h2>
                         <div style="background-color:#f8f9fa;border:1px solid #ddd;padding:12px;border-radius:4px;margin-bottom:12px;font-family:Arial,sans-serif;">
                             <p style="margin:0;white-space:pre-wrap;font-family:Arial,sans-serif;">${headerContent.replace(/\n/g, '<br>').replace(/<br><br>/g, '<br>')}</p>
                         </div>
@@ -380,7 +357,6 @@ function generateEmailContent() {
         }
     });
     
-    // Get the text content without extra line breaks
     const getCleanText = (elementId) => {
         const text = document.getElementById(elementId).value;
         return text.replace(/\n/g, '<br>').replace(/<br><br>/g, '<br>');
@@ -388,14 +364,11 @@ function generateEmailContent() {
     
     return `
         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:1000px;margin:0 auto;border:1px solid #8B0000;border-radius:4px;overflow:hidden;font-family:Arial,sans-serif;">
-            <!-- Top Header -->
             <tr>
                 <td bgcolor="#005baa" style="padding:12px 16px;color:white;text-align:center;font-weight:bold;font-size:18px;font-family:Arial,sans-serif;border-bottom:1px solid #003366;">
                     ${document.querySelector('.top-header').textContent}
                 </td>
-            </tr>       
-            
-            <!-- Header -->
+            </tr>
             <tr>
                 <td bgcolor="#8B0000" style="padding:15px 16px;color:white;">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -407,26 +380,21 @@ function generateEmailContent() {
                         </tr>
                     </table>
                 </td>
-            </tr>         
-            
-            <!-- Content -->
+            </tr>
             <tr>
                 <td style="padding:0;">
                     <table border="0" cellpadding="16" cellspacing="0" width="100%">
-                        <!-- Description -->
                         <tr>
                             <td style="padding:0 0 20px 0;">
-                                <h2 style="font-size:18px;margin:0 0 12px 0.8em;color:#444;font-family:Arial,sans-serif;font-weight:bold;">Description</h2>
+                                <h2 style="font-size:18px;margin:0 0 12px 0;color:#444;font-family:Arial,sans-serif;font-weight:bold;">Description</h2>
                                 <div style="background-color:#f8f9fa;border:1px solid #ddd;padding:12px;border-radius:4px;margin-bottom:12px;font-family:Arial,sans-serif;">
                                     <p style="margin:0;white-space:pre-wrap;font-family:Arial,sans-serif;">${getCleanText('changeDescription')}</p>
                                 </div>
                             </td>
                         </tr>
-                        
-                        <!-- Schedule -->
                         <tr>
                             <td style="padding:20px 0;">
-                                <h2 style="font-size:18px;margin:0 0 12px 0.8em;color:#444;font-family:Arial,sans-serif;font-weight:bold;">Schedule</h2>
+                                <h2 style="font-size:18px;margin:0 0 12px 0;color:#444;font-family:Arial,sans-serif;font-weight:bold;">Schedule</h2>
                                 <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;border:1px solid #8B0000;width:100%;table-layout:fixed;max-width:100%;">
                                     <thead>
                                         <tr>
@@ -444,24 +412,18 @@ function generateEmailContent() {
                                 </table>
                             </td>
                         </tr>
-                        
-                        <!-- Impact -->
                         <tr>
                             <td style="padding:20px 0;">
-                                <h2 style="font-size:18px;margin:0 0 12px 0.8em;color:#444;font-family:Arial,sans-serif;font-weight:bold;">Impact</h2>
+                                <h2 style="font-size:18px;margin:0 0 12px 0;color:#444;font-family:Arial,sans-serif;font-weight:bold;">Impact</h2>
                                 <div style="background-color:#f8f9fa;border:1px solid #ddd;padding:12px;border-radius:4px;margin-bottom:12px;font-family:Arial,sans-serif;">
                                     <p style="margin:0;white-space:pre-wrap;font-family:Arial,sans-serif;">${getCleanText('impactText')}</p>
                                 </div>
                             </td>
-                        </tr>              
-                        
-                        <!-- Optional Headers -->
-                        ${optionalHeadersContent}          
-                        
-                        <!-- Questions -->
+                        </tr>
+                        ${optionalHeadersContent}
                         <tr>
                             <td style="padding:20px 0 0 0;">
-                                <h2 style="font-size:18px;margin:0 0 12px 0.8em;color:#444;font-family:Arial,sans-serif;font-weight:bold;">Questions and further information</h2>
+                                <h2 style="font-size:18px;margin:0 0 12px 0;color:#444;font-family:Arial,sans-serif;font-weight:bold;">Questions and further information</h2>
                                 <div style="background-color:#f8f9fa;border:1px solid #ddd;padding:12px;border-radius:4px;margin-bottom:12px;font-family:Arial,sans-serif;">
                                     <p style="margin:0;font-weight:bold;">For any issues seen during the release window please raise an ESSD and/or Matters:</p>
                                     <p style="margin:4px 0 0 0;"><a href="https://wpb-confluence.systems.uk.hsbc/display/TO/Guide+for+Cross+Functional+Teams" style="color:#0066cc;text-decoration:none;">https://wpb-confluence.systems.uk.hsbc/display/TO/Guide+for+Cross+Functional+Teams</a></p>
@@ -475,9 +437,7 @@ function generateEmailContent() {
                         </tr>
                     </table>
                 </td>
-            </tr>    
-            
-            <!-- Footer -->
+            </tr>
             <tr>
                 <td bgcolor="#8B0000" style="padding:12px 16px;color:white;">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -504,9 +464,7 @@ function generateEmailContent() {
                         </tr>
                     </table>
                 </td>
-            </tr>            
-            
-            <!-- Logo and Internal Footer -->
+            </tr>
             <tr>
                 <td style="text-align: center; padding: 20px 0 0 0;">
                     <img src="https://raw.githubusercontent.com/kalo143225/my-test-site/refs/heads/master/hsbclogo.jpg" alt="Logo" width="150">
@@ -521,12 +479,10 @@ function generateEmailContent() {
     `;
 }
 
-// Show preview of the content
 function showPreview() {
     if (validateForm()) {
         const previewContent = document.getElementById('previewContent');
         previewContent.innerHTML = generateEmailContent();
-        document.getElementById('previewSection').style.display = 'block';
         document.getElementById('copySection').style.display = 'block';
         previewContent.scrollIntoView({ behavior: 'smooth' });
     } else {
@@ -534,16 +490,13 @@ function showPreview() {
     }
 }
 
-// Copy content to clipboard (Outlook optimized)
 function copyToClipboard() {
-    // Create a temporary div with the email content
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = generateEmailContent();
     tempDiv.style.position = 'absolute';
     tempDiv.style.left = '-9999px';
     document.body.appendChild(tempDiv); 
     
-    // Select the content
     const range = document.createRange();
     range.selectNode(tempDiv);
     const selection = window.getSelection();
@@ -551,7 +504,6 @@ function copyToClipboard() {
     window.getSelection().addRange(range); 
     
     try {
-        // Execute the copy command
         const successful = document.execCommand('copy');
         if (successful) {
             const copyMessage = document.getElementById('copyMessage');
@@ -566,12 +518,10 @@ function copyToClipboard() {
         alert('Error copying email content: ' + err);
     } 
     
-    // Clean up
     window.getSelection().removeAllRanges();
     document.body.removeChild(tempDiv);
 }
 
-// Get all table data
 function getTableData() {
     return Array.from(document.querySelectorAll('#scheduleTable tbody tr')).map(row => {
         const cells = row.querySelectorAll('td');
@@ -586,7 +536,6 @@ function getTableData() {
     });
 }
 
-// Populate table with saved data
 function setTableData(data) {
     const tbody = document.querySelector('#scheduleTable tbody');
     tbody.innerHTML = ''; 
@@ -636,46 +585,37 @@ function setTableData(data) {
         }
     }); 
     
-    // Ensure at least one empty row exists
     if (data.length === 0) {
         addRow();
     }  
     
-    // Initialize date/time pickers for all rows
     initDateTimePickers();
-    
-    // Validate time relationships for all rows
     validateAllTimeRelationships();
 }
 
-// Initialize the page
-document.addEventListener('DOMContentLoaded', function() {
-    // Add event listeners to buttons and Top Header
-    //Header Validation
-    function checkTopHeader() {
-        let isValid = true;
-        const topHeader = document.querySelector('.top-header');
-        const topHeaderError = document.getElementById('topHeaderError');
-        if (topHeader.textContent.trim() === "Dear") {
-            topHeaderError.style.display = 'block';
-            isValid = false;
-        } else {
-            topHeaderError.style.display = 'none';
-            isValid = true;
-        }
-        return isValid;
+function checkTopHeader() {
+    let isValid = true;
+    const topHeader = document.querySelector('.top-header');
+    const topHeaderError = document.getElementById('topHeaderError');
+    if (topHeader.textContent.trim() === "Dear") {
+        topHeaderError.style.display = 'block';
+        isValid = false;
+    } else {
+        topHeaderError.style.display = 'none';
+        isValid = true;
     }
-    
+    return isValid;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('addRowBtn').addEventListener('click', addRow);
     document.getElementById('addOptionalRowBtn').addEventListener('click', addOptionalRow);
     document.getElementById('saveDraftBtn').addEventListener('click', saveDraft);
     document.getElementById('previewBtn').addEventListener('click', showPreview);
     document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
     
-    // Initialize datetime pickers for existing rows
     initDateTimePickers();
     
-    // Initialize status selectors in the default row
     document.querySelectorAll('.status-select').forEach(select => {
         select.addEventListener('change', function() {
             updateStatusColor(this);
@@ -684,7 +624,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     loadDraft();
     
-    // Add validation on blur for required fields
     document.querySelectorAll('[required]').forEach(field => {
         field.addEventListener('blur', function() {
             if (this.value.trim() === '') {
@@ -696,4 +635,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    
+    document.querySelector('.top-header').addEventListener('blur', checkTopHeader);
 });
