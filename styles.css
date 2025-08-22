@@ -66,6 +66,14 @@ h2 {
     margin: 0.5em 0;
     font-family: Arial, sans-serif;
 }
+.content-box {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    font-family: Arial, sans-serif;
+}
 table {
     width: 100%;
     border-collapse: collapse;
@@ -162,6 +170,15 @@ th {
 }
 .editable-textarea {
     min-height: 100px;
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    resize: vertical;
+}
+.content-box .editable-textarea:focus {
+    outline: none;
+    box-shadow: none;
 }
 .button-group {
     margin-top: 20px;
@@ -400,4 +417,51 @@ th {
 #previewContent table th:nth-child(5), 
 #previewContent table td:nth-child(5) {
     width: 18%;
+}
+/* Responsive table for Outlook */
+@media screen and (max-width: 600px) {
+    #previewContent table, 
+    #previewContent thead, 
+    #previewContent tbody, 
+    #previewContent th, 
+    #previewContent td, 
+    #previewContent tr { 
+        display: block; 
+    }
+    
+    #previewContent thead tr { 
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    #previewContent tr { 
+        border: 1px solid #ccc; 
+        margin-bottom: 10px;
+    }
+    
+    #previewContent td { 
+        border: none;
+        border-bottom: 1px solid #eee; 
+        position: relative;
+        padding-left: 50%; 
+        word-wrap: break-word;
+    }
+    
+    #previewContent td:before { 
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%; 
+        padding-right: 10px; 
+        white-space: nowrap;
+        font-weight: bold;
+    }
+    
+    #previewContent td:nth-of-type(1):before { content: "CHG#"; }
+    #previewContent td:nth-of-type(2):before { content: "Region"; }
+    #previewContent td:nth-of-type(3):before { content: "Environment"; }
+    #previewContent td:nth-of-type(4):before { content: "Start Time (UTC)"; }
+    #previewContent td:nth-of-type(5):before { content: "End Time (UTC)"; }
+    #previewContent td:nth-of-type(6):before { content: "Status"; }
 }
